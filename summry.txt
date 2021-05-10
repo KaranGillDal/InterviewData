@@ -8,6 +8,6 @@ L11 field under section L1 fails all the validation criteria.
 L12 field under section L1 fails the max length (expected: {3}) validation, however it passes the data type ({word_characters}) validation
 L13 field under section L1 is missing.
 L31 field under section L3 fails the data type (expected: {word_characters}) validation, however it passes the max length ({1}) validation
-L41 field under segment L4 passes all the validation criteria.
+L41 field under section L4 is missing.
 L42 field under section L4 fails the max length (expected: {6}) validation, however it passes the data type ({digits}) validation
 L31 field under section L3 fails the data type (expected: {word_characters}) validation, however it passes the max length ({1}) validation

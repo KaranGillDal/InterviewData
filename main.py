@@ -28,7 +28,7 @@ def checkingdatatype(givendata, expecteddata):
 
 #Getting error code       
 def gettingerrorcode(givendata, expecteddata,givenlength, maxlength, section, subsection):
-    if((givendata=="empty") | (expecteddata=="Nothing")):
+    if((givendata=="empty string") | (expecteddata=="Nothing")):
         writingbrieferror("E05", section, subsection, maxlength, expecteddata)
         return "E05"
     else:
@@ -62,44 +62,32 @@ def comparingwithjson(fname):
             outputstring=fname[0]+", "+subcheck['key']
             current=current+1
             if(current<len(fname)):
-                if(subcheck['data_type']=='digits'):
-                    if(fname[current].isdigit()):
-                        digitlength=len(fname[current])
-                        outputstring=outputstring+", "+"digits"+", digits, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("digits", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
-                    elif(fname[current].isalpha() & len(fname[current])>0):
-                        digitlength=len(fname[current])
-                        outputstring=outputstring+", "+"word_characters"+", digits, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("word_characters", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
-                    else:
-                        digitlength=len(fname[current])
-                        outputstring=outputstring+", "+"other"+", digits, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("other", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
-                elif(subcheck['data_type']=='word_characters'):
-                    if all(x.isalpha() or x.isspace() for x in fname[current]):
-                        digitlength=len(fname[current])
-                        outputstring=outputstring+", "+"word_characters"+", word_characters, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("word_characters", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
-                    elif(fname[current].isdigit()):
-                        digitlength=len(fname[current])
-                        outputstring=outputstring+", "+"digits"+", word_characters, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("digits", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
-                    else:
-                        digitlength=len(fname[current])
-                        outputstring=outputstring+", "+"other"+", word_characters, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("other", "word_characters",str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"                       
+                if (len(fname[current])==0):
+                    outputstring=outputstring+", "+" "+", "+subcheck['data_type']+", "+"0, "+str(subcheck['max_length'])+","+gettingerrorcode("empty string", subcheck['data_type'],"0", str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+                else:
+                    if(subcheck['data_type']=='digits'):
+                        if(fname[current].isdigit()):
+                            digitlength=len(fname[current])
+                            outputstring=outputstring+", "+"digits"+", digits, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("digits", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+                        elif all(x.isalpha() or x.isspace() for x in fname[current]):
+                            digitlength=len(fname[current])
+                            outputstring=outputstring+", "+"word_characters"+", digits, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("word_characters", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+                        else:
+                            digitlength=len(fname[current])
+                            outputstring=outputstring+", "+"others"+", digits, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("others", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+                    elif(subcheck['data_type']=='word_characters'):
+                        if all(x.isalpha() or x.isspace() for x in fname[current]):
+                            digitlength=len(fname[current])
+                            outputstring=outputstring+", "+"word_characters"+", word_characters, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("word_characters", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+                        elif(fname[current].isdigit()):
+                            digitlength=len(fname[current])
+                            outputstring=outputstring+", "+"digits"+", word_characters, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("digits", subcheck['data_type'],str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+                        else:
+                            digitlength=len(fname[current])
+                            outputstring=outputstring+", "+"others"+", word_characters, "+str(digitlength)+", "+str(subcheck['max_length'])+", "+gettingerrorcode("others", "word_characters",str(digitlength), str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"                       
             else:
-                outputstring=outputstring+", "+"empty"+", "+subcheck['data_type']+", "+"0, "+str(subcheck['max_length'])+","+gettingerrorcode("empty", subcheck['data_type'],"0", str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
-            outputfile.write(outputstring)
-
-        #This is a special case if the input is empty
-        if(int(current)<(int(len(fname))-1)):
-            current=current+1
-            outputstring=fname[0]+", "+" Nothing "
-            if all(x.isalpha() or x.isspace() for x in fname[current]) & len(fname[current])>0:
-                digitlength=len(fname[current])
-                outputstring=outputstring+", "+"word_characters"+", Nothing, "+str(digitlength)+", Nothing"+", Nothing"+"\n"
-            elif(fname[current].isdigit()):
-                digitlength=len(fname[current])
-                outputstring=outputstring+", "+"digits"+", Nothing, "+str(digitlength)+", Nothing"+", Nothing"+"\n"
-            else:
-                digitlength=len(fname[current])
-                outputstring=outputstring+", "+"other"+", Nothing, "+str(digitlength)+", Nothing"+", Nothing"+"\n"
-            outputfile.write(outputstring)
+                outputstring=outputstring+", "+"empty string"+", "+subcheck['data_type']+", "+"0, "+str(subcheck['max_length'])+","+gettingerrorcode("empty string", subcheck['data_type'],"0", str(subcheck['max_length']), fname[0], subcheck['key'])+"\n"
+            outputfile.write(outputstring)       
             
             
         
